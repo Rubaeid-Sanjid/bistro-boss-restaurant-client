@@ -1,5 +1,3 @@
-// import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
 import banner1 from "../../assets/home/01.jpg";
 import banner2 from "../../assets/home/02.jpg";
 import banner3 from "../../assets/home/03.png";
