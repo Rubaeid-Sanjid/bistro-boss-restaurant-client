@@ -14,7 +14,7 @@ const PopularItems = () => {
     })
   },[])
   return (
-    <div>
+    <div className="container mx-auto px-3 lg:px-12 mb-8 lg:mb-12">
       <SectionTitle
         subtitle={"Check it out"}
         title={"FROM OUR MENU"}

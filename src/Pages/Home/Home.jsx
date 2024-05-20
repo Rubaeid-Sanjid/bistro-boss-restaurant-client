@@ -1,5 +1,6 @@
 import Banner from "../../Component/Banner/Banner";
 import Category from "../../Component/Category/Category";
+import FeaturedItem from "../../Component/FeaturedItem/FeaturedItem";
 import PopularItems from "../../Component/PopularItems/PopularItems";
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
             <Banner></Banner>
             <Category></Category>
             <PopularItems></PopularItems>
+            <FeaturedItem></FeaturedItem>
         </div>
     );
 };
