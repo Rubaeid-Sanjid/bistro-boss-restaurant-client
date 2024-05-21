@@ -20,7 +20,7 @@ const Testimonial = () => {
       });
   }, []);
   return (
-    <div>
+    <div className="container mx-auto px-3 lg:px-12 mt-8 lg:mt-12">
       <SectionTitle
         subtitle={"What Our Clients Say"}
         title={"TESTIMONIALS"}
@@ -28,7 +28,7 @@ const Testimonial = () => {
       <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
         {reviews.map((review) => (
           <SwiperSlide key={review._id}>
-            <div className="my-16 mx-24 flex flex-col items-center space-y-2">
+            <div className="mb-16 mx-24 flex flex-col items-center space-y-2">
               <Rating style={{ maxWidth: 180 }} value={review.rating} readOnly />
               <p>{review.details}</p>
               <h3 className="text-2xl text-[#CD9003]">{review.name}</h3>
