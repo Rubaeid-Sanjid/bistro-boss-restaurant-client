@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+ul .react-tabs__tab--selected{
+    color: #BB8506;
+    border-bottom: 4px solid #BB8506;
+    font-weight: 600;
+}

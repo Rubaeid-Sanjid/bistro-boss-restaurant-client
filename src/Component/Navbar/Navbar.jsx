@@ -5,6 +5,7 @@ const Navbar = () => {
     <>
     <NavLink to={"/"} className={'mx-3 text-lg font-semibold'}>Home</NavLink>
     <NavLink to={"/menu"} className={'mx-3 text-lg font-semibold'}>Menu</NavLink>
+    <NavLink to={"/order"} className={'mx-3 text-lg font-semibold'}>Our Shop</NavLink>
 </>
   );
 

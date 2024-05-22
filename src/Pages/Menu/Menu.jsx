@@ -18,8 +18,8 @@ const Menu = () => {
   const soup = menu.filter((item) => item.category === "soup");
   const pizza = menu.filter((item) => item.category === "pizza");
   const salad = menu.filter((item) => item.category === "salad");
-  // const drinks = menu.filter((item) => item.category === "drinks");
   const offered = menu.filter((item) => item.category === "offered");
+  // const drinks = menu.filter((item) => item.category === "drinks");
   return (
     <div className="">
       <Helmet>
