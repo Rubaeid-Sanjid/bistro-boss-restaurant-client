@@ -37,13 +37,13 @@ const Menu = () => {
       ></SectionTitle>
       <MenuCategory items={offered}></MenuCategory>
 
-      <MenuCategory items={desserts} coverImg={dessertImg} coverTitle={'DESSERTS'} coverSubtitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></MenuCategory>
+      <MenuCategory items={desserts} coverImg={dessertImg} coverTitle={'dessert'} coverSubtitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></MenuCategory>
 
-      <MenuCategory items={pizza} coverImg={pizzaImg} coverTitle={'PIZZA'} coverSubtitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></MenuCategory>
+      <MenuCategory items={pizza} coverImg={pizzaImg} coverTitle={'pizza'} coverSubtitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></MenuCategory>
 
-      <MenuCategory items={salad} coverImg={saladImg} coverTitle={'SALAD'} coverSubtitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></MenuCategory>
+      <MenuCategory items={salad} coverImg={saladImg} coverTitle={'salad'} coverSubtitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></MenuCategory>
 
-      <MenuCategory items={soup} coverImg={soupImg} coverTitle={'SOUP'} coverSubtitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></MenuCategory>
+      <MenuCategory items={soup} coverImg={soupImg} coverTitle={'soup'} coverSubtitle={'Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}></MenuCategory>
     </div>
   );
 };
