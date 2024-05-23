@@ -1,31 +1,44 @@
-import { useEffect, useRef, useState } from 'react';
-import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { useContext, useEffect, useRef, useState } from "react";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
+import { AuthContext } from "../../Component/AuthProvider/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [disable, setDisable] = useState(true);
 
-    const [disable, setDisable] = useState(true);
+  const { loginUser } = useContext(AuthContext);
 
-    useEffect(()=>{
-        loadCaptchaEnginge(6);
-    },[])
+  useEffect(() => {
+    loadCaptchaEnginge(6);
+  }, []);
 
-   const handleLogin = (e)=>{
+  const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-   }
+    loginUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
-   const captchaRef = useRef(null);
-   const handleValidateCaptcha = ()=>{
+  const captchaRef = useRef(null);
+  const handleValidateCaptcha = () => {
     const user_captcha_value = captchaRef.current.value;
-    if (validateCaptcha(user_captcha_value)==true) {
-        setDisable(false);
+    if (validateCaptcha(user_captcha_value) == true) {
+      setDisable(false);
+    } else {
+      setDisable(true);
     }
-    else {
-        setDisable(true);
-    }
-   }
+  };
   return (
     <div>
       <div className="hero min-h-screen bg-base-200">
@@ -82,11 +95,19 @@ const Login = () => {
                   ref={captchaRef}
                   required
                 />
-                <button onClick={handleValidateCaptcha} className="btn btn-outline btn-xs mt-2">Validate Captcha</button>
+                <button
+                  onClick={handleValidateCaptcha}
+                  className="btn btn-outline btn-xs mt-2"
+                >
+                  Validate Captcha
+                </button>
               </div>
               <div className="form-control mt-6">
-                <button disabled={disable} className="btn btn-primary">Login</button>
+                <button disabled={disable} className="btn btn-primary">
+                  Login
+                </button>
               </div>
+              <p>Don't have an account ? <Link to={'/signUp'}>SignUp</Link></p>
             </form>
           </div>
         </div>
