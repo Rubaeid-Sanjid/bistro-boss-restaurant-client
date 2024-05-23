@@ -13,7 +13,7 @@ const FoodCard = ({ item }) => {
           <h2 className="card-title">{name}</h2>
           <p>{recipe}</p>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary uppercase">add to cart</button>
+            <button className="btn btn-outline border-0 border-b-2 border-[#BB8506] uppercase">add to cart</button>
           </div>
         </div>
       </div>
