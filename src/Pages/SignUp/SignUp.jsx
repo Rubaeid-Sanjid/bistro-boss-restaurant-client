@@ -3,19 +3,35 @@ import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../Component/AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const {createUser} = useContext(AuthContext);
+  const {createUser, updateUser} = useContext(AuthContext);
 
   const onSubmit = (data) => {
     createUser(data.mail, data.password)
-    .then(result => console.log(result.user))
+    .then(() => {
+      updateUser(data.name, data.photo)
+      .then(() => {
+        reset();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your account has been created",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }).catch((error) => {
+        console.log(error.message);
+      });
+    })
   }
 
   return (
@@ -52,6 +68,23 @@ const SignUp = () => {
               {errors.name && (
                 <p role="alert" className="text-red-600 mt-1">
                   First name is required
+                </p>
+              )}
+            </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Photo URL</span>
+              </label>
+              <input
+                type="text"
+                placeholder="photoURL"
+                className="input input-bordered"
+                {...register("photo", { required: true })}
+              />
+              {errors.photo && (
+                <p role="alert" className="text-red-600 mt-1">
+                  PhotoURL is required
                 </p>
               )}
             </div>

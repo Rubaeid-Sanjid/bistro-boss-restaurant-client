@@ -3,28 +3,45 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Navbar = () => {
-  const {user, logoutUser} = useContext(AuthContext);
+  const { user, logoutUser } = useContext(AuthContext);
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     logoutUser()
-    .than(()=>{})
-    .catch(error => console.error(error))
-  }
+      .than(() => {})
+      .catch((error) => console.error(error));
+  };
   const navlink = (
     <>
-    <NavLink to={"/"} className={'mx-3 text-lg font-semibold'}>Home</NavLink>
-    <NavLink to={"/menu"} className={'mx-3 text-lg font-semibold'}>Menu</NavLink>
-    <NavLink to={"/order/salad"} className={'mx-3 text-lg font-semibold'}>Our Shop</NavLink>
-    {
-      user ? <button className="btn btn-ghost" onClick={handleLogout}>Logout</button> :  
-      <NavLink to={"/login"} className={'mx-3 text-lg font-semibold'}>Login</NavLink>
-    }
-</>
+      <NavLink to={"/"} className={"mx-3 text-lg font-semibold"}>
+        Home
+      </NavLink>
+      <NavLink to={"/menu"} className={"mx-3 text-lg font-semibold"}>
+        Menu
+      </NavLink>
+      <NavLink to={"/order/salad"} className={"mx-3 text-lg font-semibold"}>
+        Our Shop
+      </NavLink>
+
+      {user ? (
+        <>
+          <button className="btn btn-ghost" onClick={handleLogout}>
+            Logout
+          </button>
+        </>
+      ) : (
+        <NavLink to={"/login"} className={"mx-3 text-lg font-semibold"}>
+          Login
+        </NavLink>
+      )}
+    </>
   );
 
   return (
     <div>
-      <div className="fixed z-10 bg-black text-white navbar" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
+      <div
+        className="fixed z-10 bg-black text-white navbar"
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.3)" }}
+      >
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -56,12 +73,16 @@ const Navbar = () => {
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-          {navlink}
-          </ul>
+          <ul className="menu menu-horizontal px-1">{navlink}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Sign In</a>
+          {user && (
+            <div className="avatar">
+              <div className="w-16 rounded-full">
+                <img title={user.displayName} src={user.photoURL} />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
