@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
+import { useContext } from "react";
+import { AuthContext } from "../../Component/AuthProvider/AuthProvider";
 
 const SignUp = () => {
   const {
@@ -8,7 +10,14 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
+
+  const {createUser} = useContext(AuthContext);
+
+  const onSubmit = (data) => {
+    createUser(data.mail, data.password)
+    .then(result => console.log(result.user))
+  }
+
   return (
     <>
       <Helmet>
@@ -26,7 +35,7 @@ const SignUp = () => {
         </div>
         <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form
-            onSubmit={handleSubmit((data) => console.log(data))}
+            onSubmit={handleSubmit(onSubmit)}
             className="card-body"
           >
             <div className="form-control">
