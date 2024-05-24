@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
@@ -15,6 +15,8 @@ const SignUp = () => {
 
   const {createUser, updateUser} = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
     createUser(data.mail, data.password)
     .then(() => {
@@ -28,6 +30,7 @@ const SignUp = () => {
           showConfirmButton: false,
           timer: 1500
         });
+        navigate('/')
       }).catch((error) => {
         console.log(error.message);
       });

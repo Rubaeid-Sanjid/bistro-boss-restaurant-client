@@ -1,5 +1,41 @@
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
+
 const FoodCard = ({ item }) => {
-  const { image, name, price, recipe } = item;
+  const { image, name, price, recipe, _id } = item;
+  const {user} = useContext(AuthContext);
+
+  const axiosSecure = useAxiosSecure();
+
+  const handleAddCart = ()=>{
+    const cartItem = {
+      menuId: _id,
+      email: user.email,
+      name,
+      image,
+      price
+    }
+    if(user && user.email){
+      axiosSecure.post("/carts", cartItem)
+      .then(res=>{
+        console.log(res.data);
+        if(res.data.insertedId){
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Item added successfully.",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      })
+    }
+    else{
+      // 
+    }
+  }
   return (
     <div>
       <div className="card bg-base-100 shadow-xl">
@@ -13,7 +49,7 @@ const FoodCard = ({ item }) => {
           <h2 className="card-title">{name}</h2>
           <p>{recipe}</p>
           <div className="card-actions justify-end">
-            <button className="btn btn-outline border-0 border-b-2 border-[#BB8506] uppercase">add to cart</button>
+            <button onClick={()=>handleAddCart(item)} className="btn btn-outline border-0 border-b-2 border-[#BB8506] uppercase">add to cart</button>
           </div>
         </div>
       </div>

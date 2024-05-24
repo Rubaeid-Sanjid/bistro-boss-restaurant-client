@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logoutUser } = useContext(AuthContext);
@@ -21,18 +22,12 @@ const Navbar = () => {
       <NavLink to={"/order/salad"} className={"mx-3 text-lg font-semibold"}>
         Our Shop
       </NavLink>
-
-      {user ? (
-        <>
-          <button className="btn btn-ghost" onClick={handleLogout}>
-            Logout
-          </button>
-        </>
-      ) : (
-        <NavLink to={"/login"} className={"mx-3 text-lg font-semibold"}>
-          Login
-        </NavLink>
-      )}
+      <NavLink to={"/order/salad"} className={"mx-3 text-lg font-semibold"}>
+        <button className="btn btn-ghost text-white">
+          <FaShoppingCart />
+          <div className="badge badge-secondary">+0</div>
+        </button>
+      </NavLink>
     </>
   );
 
@@ -76,12 +71,21 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navlink}</ul>
         </div>
         <div className="navbar-end">
-          {user && (
-            <div className="avatar">
-              <div className="w-16 rounded-full">
-                <img title={user.displayName} src={user.photoURL} />
+          {user ? (
+            <div className="flex items-center">
+              <div className="avatar">
+                <div className="w-16 rounded-full">
+                  <img title={user.displayName} src={user.photoURL} />
+                </div>
               </div>
+              <button className="btn btn-ghost" onClick={handleLogout}>
+                Logout
+              </button>
             </div>
+          ) : (
+            <NavLink to={"/login"} className={"mx-3 text-lg font-semibold"}>
+              Login
+            </NavLink>
           )}
         </div>
       </div>
