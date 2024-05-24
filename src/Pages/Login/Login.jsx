@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
@@ -7,6 +7,7 @@ import {
 import { AuthContext } from "../../Component/AuthProvider/AuthProvider";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [disable, setDisable] = useState(true);
@@ -25,22 +26,22 @@ const Login = () => {
     loginUser(email, password)
       .then((result) => {
         console.log(result.user);
+        Swal.fire("Login successful");
       })
       .catch((error) => {
         console.log(error.message);
       });
   };
 
-  const captchaRef = useRef(null);
-  const handleValidateCaptcha = () => {
-    const user_captcha_value = captchaRef.current.value;
+  const handleValidateCaptcha = (e) => {
+    const user_captcha_value = e.target.value;
     if (validateCaptcha(user_captcha_value) == true) {
       setDisable(false);
     } else {
       setDisable(true);
     }
   };
-  
+
   return (
     <div>
       <Helmet>
@@ -93,19 +94,13 @@ const Login = () => {
                 </label>
                 <LoadCanvasTemplate />
                 <input
+                  onBlur={handleValidateCaptcha}
                   type="text"
                   placeholder="captcha"
                   name="captcha"
                   className="input input-bordered"
-                  ref={captchaRef}
                   required
                 />
-                <button
-                  onClick={handleValidateCaptcha}
-                  className="btn btn-outline btn-xs mt-2"
-                >
-                  Validate Captcha
-                </button>
               </div>
               <div className="form-control mt-6">
                 <button disabled={disable} className="btn btn-primary">
