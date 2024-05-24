@@ -6,6 +6,7 @@ import {
 } from "react-simple-captcha";
 import { AuthContext } from "../../Component/AuthProvider/AuthProvider";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const [disable, setDisable] = useState(true);
@@ -41,6 +42,9 @@ const Login = () => {
   };
   return (
     <div>
+      <Helmet>
+        <title>BISTRO BOSS | Login</title>
+      </Helmet>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col">
           <div className="text-center lg:text-left">

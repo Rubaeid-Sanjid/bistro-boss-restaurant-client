@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet-async";
 
 const SignUp = () => {
   const {
@@ -7,9 +8,13 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  
   return (
-    <div className="hero min-h-screen bg-base-200">
+    <>
+      <Helmet>
+        <title>BISTRO BOSS | Sign Up</title>
+      </Helmet>
+      <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold">Sign Up</h1>
@@ -35,7 +40,11 @@ const SignUp = () => {
                 className="input input-bordered"
                 {...register("name", { required: true })}
               />
-              {errors.name && <p role="alert" className="text-red-600 mt-1">First name is required</p>}
+              {errors.name && (
+                <p role="alert" className="text-red-600 mt-1">
+                  First name is required
+                </p>
+              )}
             </div>
 
             <div className="form-control">
@@ -48,9 +57,13 @@ const SignUp = () => {
                 // name="email"
                 className="input input-bordered"
                 {...register("mail", { required: "Email Address is required" })}
-        aria-invalid={errors.mail ? "true" : "false"}
+                aria-invalid={errors.mail ? "true" : "false"}
               />
-              {errors.mail && <p role="alert" className="text-red-600 mt-1">{errors.mail.message}</p>}
+              {errors.mail && (
+                <p role="alert" className="text-red-600 mt-1">
+                  {errors.mail.message}
+                </p>
+              )}
             </div>
 
             <div className="form-control">
@@ -62,9 +75,33 @@ const SignUp = () => {
                 placeholder="password"
                 // name="password"
                 className="input input-bordered"
-                {...register("password", { required: true })}
+                {...register("password", {
+                  required: true,
+                  minLength: 6,
+                  maxLength: 20,
+                  pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                })}
               />
-              {errors.password && <p role="alert" className="text-red-600 mt-1">Password is required</p>}
+              {errors.password?.type === 'required' && (
+                <p role="alert" className="text-red-600 mt-1">
+                  Password is required
+                </p>
+              )}
+              {errors.password?.type === 'minLength' && (
+                <p role="alert" className="text-red-600 mt-1">
+                  Password must have 6 characters
+                </p>
+              )}
+              {errors.password?.type === 'maxLength' && (
+                <p role="alert" className="text-red-600 mt-1">
+                  Password must have less than 20 characters
+                </p>
+              )}
+              {errors.password?.type === 'pattern' && (
+                <p role="alert" className="text-red-600 mt-1">
+                  Password must have a lower letter, a capital letter, a digit and a special character
+                </p>
+              )}
             </div>
 
             <div className="form-control mt-6">
@@ -77,6 +114,7 @@ const SignUp = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
