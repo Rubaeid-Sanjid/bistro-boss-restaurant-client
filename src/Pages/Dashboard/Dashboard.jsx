@@ -5,7 +5,7 @@ import { NavLink, Outlet } from "react-router-dom";
 const Dashboard = () => {
   return (
     <div className="container mx-auto px-3 lg:px-12 flex">
-      <div className="w-1/4 h-full bg-[#BB8506]">
+      <div className="w-1/4 min-h-screen bg-[#D1A054]">
         <ul className="menu p-4 space-y-2">
           <li>
             <NavLink to={"/dashboard/user"}>
@@ -30,6 +30,10 @@ const Dashboard = () => {
               <MdPayments />
               payment history
             </NavLink>
+          </li>
+          <div className="divider"></div>
+          <li>
+          <NavLink to={"/"}><FaHome></FaHome> Home</NavLink>
           </li>
         </ul>
       </div>
