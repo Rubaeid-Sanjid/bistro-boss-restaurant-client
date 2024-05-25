@@ -2,12 +2,14 @@ import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import useCart from "../../Hook/useCart";
 
 const FoodCard = ({ item }) => {
   const { image, name, price, recipe, _id } = item;
   const {user} = useContext(AuthContext);
 
   const axiosSecure = useAxiosSecure();
+  const [, refetch] = useCart();
 
   const handleAddCart = ()=>{
     const cartItem = {
@@ -29,6 +31,7 @@ const FoodCard = ({ item }) => {
             showConfirmButton: false,
             timer: 1500
           });
+          refetch();
         }
       })
     }
