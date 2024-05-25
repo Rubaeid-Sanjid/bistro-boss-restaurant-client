@@ -25,7 +25,7 @@ const Navbar = () => {
       <NavLink to={"/order/salad"} className={"mx-3 text-lg font-semibold"}>
         Our Shop
       </NavLink>
-      <NavLink to={"/order/salad"} className={"mx-3 text-lg font-semibold"}>
+      <NavLink to={"/dashboard"} className={"mx-3 text-lg font-semibold"}>
         <button className="btn btn-ghost text-white">
           <FaShoppingCart />
           <div className="badge badge-secondary">+{carts.length}</div>
