@@ -2,9 +2,10 @@ import { FaBook, FaCalendar, FaEnvelope, FaHome, FaList, FaShoppingCart, FaUsers
 import { FiMenu } from "react-icons/fi";
 import { MdPayments, MdRateReview, MdShoppingBag } from "react-icons/md";
 import { NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../../Hook/useAdmin";
 
 const Dashboard = () => {
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
   return (
     <div className="container mx-auto px-3 lg:px-12 flex">
       <div className="w-1/4 min-h-screen bg-[#D1A054]">
