@@ -9,7 +9,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto px-3 lg:px-12 flex">
       <div className="w-1/4 min-h-screen bg-[#D1A054]">
-        <ul className="menu uppercase p-4 space-y-2">
+        <ul className="menu uppercase p-4 space-y-2 mt-12">
           {isAdmin ? (
             <>
               <li>
