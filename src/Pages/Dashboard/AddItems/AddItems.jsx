@@ -32,9 +32,9 @@ const AddItems = () => {
         category: data.category,
         price: data.price,
       };
-      
+
       const menuRes = await axiosSecure.post('/menu', menuInfo)
-      console.log(menuRes.data)
+      // console.log(menuRes.data)
       if(menuRes.data.insertedId){
         reset();
         Swal.fire({
