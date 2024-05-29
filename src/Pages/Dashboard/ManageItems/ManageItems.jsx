@@ -4,9 +4,10 @@ import useMenu from "../../../Hook/useMenu";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 const ManageItems = () => {
-  const [menu, ,refetch] = useMenu();
+  const [menu, , refetch] = useMenu();
 
   const axiosSecure = useAxiosSecure();
 
@@ -76,12 +77,13 @@ const ManageItems = () => {
                 <td>{item.name}</td>
                 <td>$ {item.price}</td>
                 <th>
-                  <button
-                    // onClick={() => handleMakeAdmin(item._id)}
-                    className="btn text-xl bg-[#D1A054] text-white"
-                  >
-                    <FaRegPenToSquare></FaRegPenToSquare>
-                  </button>
+                  <Link to={`/dashboard/updateItem/${item._id}`}>
+                    <button
+                      className="btn text-xl bg-[#D1A054] text-white"
+                    >
+                      <FaRegPenToSquare></FaRegPenToSquare>
+                    </button>
+                  </Link>
                 </th>
                 <th>
                   <button

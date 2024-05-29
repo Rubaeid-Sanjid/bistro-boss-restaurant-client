@@ -1,59 +1,67 @@
 import { useForm } from "react-hook-form";
-import SectionTitle from "../../../Component/SectionTitle/SectionTitle";
-import { FaUtensils } from "react-icons/fa";
+import { useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAxiosPublic from "../../../Hook/useAxiosPublic";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
-import Swal from "sweetalert2";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const AddItems = () => {
-  const { register, handleSubmit, reset } = useForm();
+const UpdateItem = () => {
+  const { name, category, recipe, image, price, _id } = useLoaderData();
+  const { register, handleSubmit } = useForm();
 
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
-    // console.log(data)
+    let imgURL = image;
 
-    const imgFile = { image: data.image[0] };
+    if (data.image && data.image[0]) {
+      const imgFile = new FormData();
+      imgFile.append("image", data.image[0]);
 
-    const res = await axiosPublic.post(image_hosting_api, imgFile, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    // console.log(res.data)
-    // console.log(res.data.data.display_url)
-    if (res.data.success) {
-      const menuInfo = {
-        name: data.name,
-        recipe: data.recipe,
-        image: res.data.data.display_url,
-        category: data.category,
-        price: data.price,
-      };
+      const res = await axiosPublic.post(image_hosting_api, imgFile, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      const menuRes = await axiosSecure.post('/menu', menuInfo)
-      // console.log(menuRes.data)
-      if(menuRes.data.insertedId){
-        reset();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${data.name} added successfully.`,
-          showConfirmButton: false,
-          timer: 1500
-        });
+      if (res.data.success) {
+        imgURL = res.data.data.display_url;
       }
+    }
+
+    const menuInfo = {
+      name: data.name,
+      recipe: data.recipe,
+      category: data.category,
+      price: data.price,
+      image: imgURL,
+    };
+
+    const menuRes = await axiosSecure.patch(`/menu/${_id}`, menuInfo);
+
+    if (menuRes.data.modifiedCount > 0) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${data.name} updated successfully.`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Failed to update item.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
   return (
     <div>
-      <SectionTitle
-        title={"ADD AN ITEM"}
-        subtitle={"What's new?"}
-      ></SectionTitle>
+      <h2 className="text-3xl lg:text-4xl text-center my-8">UPDATE ITEM</h2>
       <div className="m-12 p-10 bg-base-300">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <div className="form-control w-full">
@@ -65,6 +73,7 @@ const AddItems = () => {
               placeholder="Recipe name"
               className="input input-bordered w-full"
               {...register("name", { required: true })}
+              defaultValue={name}
             />
           </div>
 
@@ -75,12 +84,10 @@ const AddItems = () => {
               </label>
               <select
                 {...register("category", { required: true })}
+                defaultValue={category}
                 className="select select-bordered w-full"
-                defaultValue={'Select a category'}
               >
-                {/* <option disabled selected>
-                  Select a category
-                </option> */}
+                <option disabled>Select a category</option>
                 <option value="salad">Salad</option>
                 <option value="pizza">Pizza</option>
                 <option value="soup">Soup</option>
@@ -98,6 +105,7 @@ const AddItems = () => {
                 placeholder="Price"
                 className="input input-bordered w-full"
                 {...register("price", { required: true })}
+                defaultValue={price}
               />
             </div>
           </div>
@@ -110,19 +118,20 @@ const AddItems = () => {
               {...register("recipe")}
               className="textarea textarea-bordered w-full"
               placeholder="Recipe Details"
+              defaultValue={recipe}
             ></textarea>
           </div>
 
           <div className="form-control w-full">
             <input
-              {...register("image", { required: true })}
+              {...register("image")}
               type="file"
               className="file-input w-full"
             />
           </div>
 
-          <button className="btn bg- bg-gradient-to-r from-[#835D23] to-[#B58130] text-white">
-            Add Item <FaUtensils className="ml-1"></FaUtensils>
+          <button className="btn bg-gradient-to-r from-[#835D23] to-[#B58130] text-white">
+            Update Item
           </button>
         </form>
       </div>
@@ -130,4 +139,4 @@ const AddItems = () => {
   );
 };
 
-export default AddItems;
+export default UpdateItem;
