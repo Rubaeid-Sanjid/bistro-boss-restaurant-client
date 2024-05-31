@@ -5,7 +5,7 @@ import useCart from "../../../Hook/useCart";
 import { AuthContext } from "../../../Component/AuthProvider/AuthProvider";
 
 const CheckoutForm = () => {
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -13,19 +13,21 @@ const CheckoutForm = () => {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
 
-  const [transactionId, setTransactionId] = useState('');
+  const [transactionId, setTransactionId] = useState("");
 
   const axiosSecure = useAxiosSecure();
   const [carts] = useCart();
   const totalPrice = carts.reduce((total, item) => total + item.price, 0);
 
   useEffect(() => {
-    axiosSecure
-      .post("/create-payment-intent", { price: totalPrice })
-      .then((res) => {
-        // console.log(res.data.clientSecret);
-        setClientSecret(res.data.clientSecret);
-      });
+    if (totalPrice > 0) {
+      axiosSecure
+        .post("/create-payment-intent", { price: totalPrice })
+        .then((res) => {
+          // console.log(res.data.clientSecret);
+          setClientSecret(res.data.clientSecret);
+        });
+    }
   }, [axiosSecure, totalPrice]);
 
   const handleSubmit = async (event) => {
@@ -55,21 +57,22 @@ const CheckoutForm = () => {
     }
 
     // confirm payment
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: card,
-        billing_details:{
-          name: user.displayName || 'anonymous',
-          email: user.email || 'anonymous'
-        }
-      }
-    })
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: user.displayName || "anonymous",
+            email: user.email || "anonymous",
+          },
+        },
+      });
 
-    if(confirmError){
+    if (confirmError) {
       console.log("Confirm error.");
-    }else{
+    } else {
       // console.log('payment intent', paymentIntent);
-      if(paymentIntent.status === 'succeeded'){
+      if (paymentIntent.status === "succeeded") {
         setTransactionId(paymentIntent.id);
 
         const paymentInfo = {
@@ -77,12 +80,12 @@ const CheckoutForm = () => {
           price: totalPrice,
           transactionId: paymentIntent.id,
           date: new Date(),
-          cartIds: carts.map(item => item._id),
-          menuItemIds: carts.map(item => item.menuId),
-          status: "pending"
-        }
+          cartIds: carts.map((item) => item._id),
+          menuItemIds: carts.map((item) => item.menuId),
+          status: "pending",
+        };
 
-        const res = await axiosSecure.post('/payment', paymentInfo)
+        const res = await axiosSecure.post("/payment", paymentInfo);
         console.log("saved payment", res.data);
       }
     }
@@ -114,7 +117,11 @@ const CheckoutForm = () => {
         Pay
       </button>
       <p className="text-red-600 my-1">{error}</p>
-      {transactionId && <p className="text-green-600 my-1">Your transaction ID: {transactionId}</p>}
+      {transactionId && (
+        <p className="text-green-600 my-1">
+          Your transaction ID: {transactionId}
+        </p>
+      )}
     </form>
   );
 };
