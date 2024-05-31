@@ -23,7 +23,7 @@ const CheckoutForm = () => {
     axiosSecure
       .post("/create-payment-intent", { price: totalPrice })
       .then((res) => {
-        console.log(res.data.clientSecret);
+        // console.log(res.data.clientSecret);
         setClientSecret(res.data.clientSecret);
       });
   }, [axiosSecure, totalPrice]);
@@ -68,9 +68,22 @@ const CheckoutForm = () => {
     if(confirmError){
       console.log("Confirm error.");
     }else{
-      console.log('payment intent', paymentIntent);
+      // console.log('payment intent', paymentIntent);
       if(paymentIntent.status === 'succeeded'){
         setTransactionId(paymentIntent.id);
+
+        const paymentInfo = {
+          email: user.email,
+          price: totalPrice,
+          transactionId: paymentIntent.id,
+          date: new Date(),
+          cartIds: carts.map(item => item._id),
+          menuItemIds: carts.map(item => item.menuId),
+          status: "pending"
+        }
+
+        const res = await axiosSecure.post('/payment', paymentInfo)
+        console.log("saved payment", res.data);
       }
     }
   };
