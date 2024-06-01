@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import useCart from "../../../Hook/useCart";
 import { AuthContext } from "../../../Component/AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
 
 const CheckoutForm = () => {
   const { user } = useContext(AuthContext);
@@ -87,6 +88,16 @@ const CheckoutForm = () => {
 
         const res = await axiosSecure.post("/payment", paymentInfo);
         console.log("saved payment", res.data);
+
+        if(res.data?.paymentResult?.insertedId){
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Thank you, Payment successful.",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
       }
     }
   };
