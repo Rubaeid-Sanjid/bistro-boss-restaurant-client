@@ -58,6 +58,7 @@ const AuthProvider = ({ children }) => {
         .then(res=>{
           if(res.data.token){
             localStorage.setItem("token", res.data.token)
+            setLoader(false);
           }
         })
       }

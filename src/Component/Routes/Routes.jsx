@@ -8,6 +8,8 @@ import SignUp from "../../Pages/SignUp/SignUp";
 import Secret from "../Secret/Secret";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Dashboard from "../../Pages/Dashboard/Dashboard";
+import UserHome from "../../Pages/Dashboard/UserHome/UserHome"
+import AdminHome from "../../Pages/Dashboard/AdminHome/AdminHome"
 import Cart from "../../Pages/Dashboard/Cart/Cart";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import AddItems from "../../Pages/Dashboard/AddItems/AddItems";
@@ -45,6 +47,10 @@ export const router = createBrowserRouter([
     element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
     children: [
       {
+        path: "/dashboard/userHome",
+        element: <UserHome></UserHome>,
+      },
+      {
         path: "/dashboard/cart",
         element: <Cart></Cart>,
       },
@@ -57,6 +63,10 @@ export const router = createBrowserRouter([
         element: <PaymentHistory></PaymentHistory>,
       },
       // admin routes
+      {
+        path: "/dashboard/adminHome",
+        element: <AdminRoute><AdminHome></AdminHome></AdminRoute>
+      },
       {
         path: "/dashboard/allUsers",
         element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
